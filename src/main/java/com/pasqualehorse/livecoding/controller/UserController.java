@@ -44,8 +44,10 @@ public class UserController {
 
 		return userService.modifyAll(id, createUserRequestDto);
 	}
-	@GetMapping()
+	@GetMapping("/getPage")
 	public ListUserDto getPage(@RequestParam int page, @RequestParam int size) {
+
+		return userService.getPage(page, size);
 
 
 	}

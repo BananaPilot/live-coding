@@ -98,7 +98,8 @@ public class UserService {
 		for(User user : users) {
 			result.add(userMapper.convertToUserResponseDto(user));
 		}
-		response.(result);
-		return response;
+
+		return new ListUserDto(result);
+
 	}
 }
