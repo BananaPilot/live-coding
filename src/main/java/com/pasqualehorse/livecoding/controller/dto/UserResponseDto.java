@@ -3,6 +3,8 @@ package com.pasqualehorse.livecoding.controller.dto;
 public class UserResponseDto extends BaseResponse {
 	private Long id;
 	private String username;
+
+	private String password;
 	private String email;
 	private boolean active;
 
@@ -35,6 +37,15 @@ public class UserResponseDto extends BaseResponse {
 		this.username = builder.username;
 		this.email = builder.email;
 		this.active = builder.active;
+		this.password = builder.password;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 	public static Builder builder() {
@@ -46,10 +57,14 @@ public class UserResponseDto extends BaseResponse {
 		private String username;
 		private String email;
 		private boolean active;
+		private String password;
 
 		private Builder() {
 		}
-
+        public Builder withPassword(String password){
+			this.password = password;
+			return this;
+		}
 		public Builder withId(Long id) {
 			this.id = id;
 			return this;
