@@ -6,6 +6,7 @@ public class UserResponseDto extends BaseResponse {
 	private String email;
 	private boolean active;
 
+
 	public UserResponseDto() {
 	}
 

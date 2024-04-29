@@ -6,6 +6,11 @@ public class ListUserDto extends BaseResponse{
 
 	private List<UserResponseDto> users;
 
+	private int totalElements;
+	private int pageSize;
+	private int page;
+	private int totalPages;
+
 
 	public ListUserDto() {
 		super();
@@ -24,7 +29,36 @@ public class ListUserDto extends BaseResponse{
 	}
 
 
-	
-	
+	public int getTotalElements() {
+		return totalElements;
+	}
+
+	public void setTotalElements(int totalElements) {
+		this.totalElements = totalElements;
+	}
+
+	public int getPageSize() {
+		return pageSize;
+	}
+
+	public void setPageSize(int pageSize) {
+		this.pageSize = pageSize;
+	}
+
+	public int getPage() {
+		return page;
+	}
+
+	public void setPage(int page) {
+		this.page = page;
+	}
+
+	public int getTotalPages() {
+		return totalPages;
+	}
+
+	public void setTotalPages(int totalPages) {
+		this.totalPages = totalPages;
+	}
 }
 

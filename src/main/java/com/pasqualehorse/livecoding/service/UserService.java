@@ -88,18 +88,24 @@ public class UserService {
 
 		}
 
-
-
 	}
 	public ListUserDto getPage(int page, int size){
 		Page<User> users = userRepository.findAll(PageRequest.of(page, size));
-
 		List<UserResponseDto> result = new ArrayList<>();
+
+		ListUserDto response = new ListUserDto();
+
 		for(User user : users) {
 			result.add(userMapper.convertToUserResponseDto(user));
 		}
 
-		return new ListUserDto(result);
+		response.setPageSize(users.getPageable().getPageSize());
+		response.setTotalElements((int)users.getTotalElements());
+		response.setPage(users.getPageable().getPageNumber());
+		response.setTotalPages(users.getTotalPages());
+		response.setUsers(result);
+
+		return response;
 
 	}
 }
