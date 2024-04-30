@@ -52,9 +52,10 @@ public class UserController {
 
 	}
 
-
-
-
+	@GetMapping("/like-user")
+	public ListUserDto listUserDto(@RequestParam String username){
+		return userService.getLikeUsername(username);
+	}
 
 	
 }

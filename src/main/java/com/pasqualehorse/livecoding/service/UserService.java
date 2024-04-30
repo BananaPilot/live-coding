@@ -108,4 +108,16 @@ public class UserService {
 		return response;
 
 	}
+
+	public ListUserDto getLikeUsername(String username){
+		ListUserDto listUserDto = new ListUserDto();
+		for(User user : userRepository.getLikeUsername(username)){
+			listUserDto.getUsers().add(userMapper.convertToUserResponseDto(user));
+		}
+		listUserDto.setPage(0);
+		listUserDto.setTotalElements(listUserDto.getUsers().size());
+		listUserDto.setTotalPages(1);
+		listUserDto.setPageSize(listUserDto.getUsers().size());
+		return listUserDto;
+	}
 }
