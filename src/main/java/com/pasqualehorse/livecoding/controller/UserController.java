@@ -18,11 +18,11 @@ import jakarta.validation.Valid;
 public class UserController {
 
 	public UserService userService;
-	
+
 	public UserController(UserService userService) {
 		this.userService = userService;
 	}
-	
+
 	@PostMapping
 	@ResponseStatus(value = HttpStatus.CREATED)
 	public WithIdResponseDto createUser(@RequestBody @Valid CreateUserRequestDto request) {
@@ -33,29 +33,37 @@ public class UserController {
 	public UserResponseDto getUser(@PathVariable("id") Long id) {
 		return userService.getUser(id);
 	}
-	
+
 	@GetMapping
-		public ListUserDto showAll(){
+	public ListUserDto showAll() {
 		return userService.showAll();
 	}
 
 	@PutMapping("/{id}")
-	public UserResponseDto modifyUser (@PathVariable Long id,@RequestBody CreateUserRequestDto createUserRequestDto) {
+	public UserResponseDto modifyUser(@PathVariable Long id, @RequestBody CreateUserRequestDto createUserRequestDto) {
 
 		return userService.modifyAll(id, createUserRequestDto);
 	}
+
 	@GetMapping("/getPage")
 	public ListUserDto getPage(@RequestParam int page, @RequestParam int size) {
 
 		return userService.getPage(page, size);
 
-
 	}
 
 	@GetMapping("/like-user")
-	public ListUserDto listUserDto(@RequestParam String username){
+	public ListUserDto listUserDto(@RequestParam String username) {
 		return userService.getLikeUsername(username);
 	}
 
+	@GetMapping("/getPageUser")
+	public ListUserDto getPageUser(@RequestParam String username, @RequestParam int page,@RequestParam int pageSize) {
+
+		return userService.getPageUser(username, page, pageSize);
+
+	}
 	
+	
+
 }
