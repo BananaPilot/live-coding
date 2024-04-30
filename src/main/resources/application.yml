@@ -9,7 +9,6 @@ spring:
       ddl-auto: update
 app:
   user-mapper:
-    show-password: false
-    bingo-bongo: 1
+
 server:
   port: 8080

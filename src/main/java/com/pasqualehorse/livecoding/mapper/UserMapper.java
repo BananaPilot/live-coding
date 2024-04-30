@@ -1,5 +1,7 @@
 package com.pasqualehorse.livecoding.mapper;
 
+import com.pasqualehorse.livecoding.configuration.UserMapperProperties;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -12,14 +14,10 @@ import java.util.Objects;
 
 @Component
 public class UserMapper {
-	@Value("${app.user-mapper.show-password}")
-	private Boolean showPassword;
-
-	@Value("${app.user-mapper}")
-	private LinkedHashMap<String, Object> bobo;
+    @Autowired
+	UserMapperProperties prop;
 
 	public User convertFromCreateUserDto(CreateUserRequestDto request) {
-
 		User user = new User();
 		user.setEmail(request.getEmail());
 		user.setPassword(request.getPassword());
@@ -30,11 +28,11 @@ public class UserMapper {
 
 
 	public UserResponseDto convertToUserResponseDto(User user) {
-		System.out.println(this.bobo);
+
 		return UserResponseDto.builder().withActive(user.isActive())
 				.withEmail(user.getEmail()).withId(user.getId())
 				.withUsername(user.getUsername())
-				.withPassword(this.showPassword?user.getPassword():"masked")
+				.withPassword(this.prop.getShowPassword()?user.getPassword():"masked")
 				.build();
 	}
 
