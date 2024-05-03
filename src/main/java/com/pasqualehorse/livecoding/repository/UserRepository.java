@@ -20,9 +20,9 @@ public interface UserRepository extends JpaRepository<User, Long>{
 
 	Optional<User> findByEmail(String email);
 
-	@Query( value = "select * from user where username like %:username%", nativeQuery = true)
+	@Query( value = "select * from userT where username like %:username%", nativeQuery = true)
 	List<User> getLikeUsername(@Param("username") String username);
-	@Query ( value = "select * from user where username like :username",nativeQuery = true)
+	@Query ( value = "select * from userT where username like :username",nativeQuery = true)
 	Page<User> findPageByUsernameLike(String username, Pageable page);
 	
 }

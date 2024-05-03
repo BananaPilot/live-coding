@@ -9,6 +9,10 @@ public class WithIdResponseDto extends BaseResponse {
 		this.id = id;
 	}
 
+	public WithIdResponseDto() {
+
+	}
+
 	public Long getId() {
 		return id;
 	}
