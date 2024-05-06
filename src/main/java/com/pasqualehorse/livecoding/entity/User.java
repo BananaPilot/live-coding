@@ -1,10 +1,13 @@
 package com.pasqualehorse.livecoding.entity;
 
+import java.util.List;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -27,6 +30,17 @@ public class User {
     
 	@Column(nullable = false)
 	private boolean active = false;
+	
+	@OneToMany(mappedBy = "user")
+	private List<UserRuolo> ruolo;
+
+	public List<UserRuolo> getRuolo() {
+		return ruolo;
+	}
+
+	public void setRuolo(List<UserRuolo> ruolo) {
+		this.ruolo = ruolo;
+	}
 
 	public Long getId() {
 		return id;

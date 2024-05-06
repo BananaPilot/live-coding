@@ -1,0 +1,12 @@
+package com.pasqualehorse.livecoding.repository;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import com.pasqualehorse.livecoding.entity.UserRuolo;
+import com.pasqualehorse.livecoding.entity.UserRuoloPK;
+
+@Repository
+public interface UserRuoloRepository extends JpaRepository<UserRuolo, UserRuoloPK>{
+
+}
