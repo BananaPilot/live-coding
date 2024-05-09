@@ -8,6 +8,7 @@ import com.pasqualehorse.livecoding.service.UserRuoloService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 
 @RestController
@@ -21,9 +22,11 @@ public class UserRoleController {
 	}
 	
 	@GetMapping("/getAllRoles/{id}")
-	public UserRuoloListDTO getMethodName(@PathVariable Long id) {
-		return userRuoloService.getAllRuoloByUser(id);
+	public UserRuoloListDTO getRolesByPage(@PathVariable Long id, @RequestParam Integer page, @RequestParam Integer size) {
+		
+		return userRuoloService.getAllRuoloByUser(id, page, size);
 	}
+	
 	
 	
 }

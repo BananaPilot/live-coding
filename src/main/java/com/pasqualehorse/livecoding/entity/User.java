@@ -2,6 +2,8 @@ package com.pasqualehorse.livecoding.entity;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -33,7 +35,7 @@ public class User {
 	
 	@OneToMany(mappedBy = "user")
 	private List<UserRuolo> ruolo;
-
+	@JsonIgnore
 	public List<UserRuolo> getRuolo() {
 		return ruolo;
 	}
