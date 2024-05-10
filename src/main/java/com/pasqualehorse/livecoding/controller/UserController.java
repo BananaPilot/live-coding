@@ -2,16 +2,15 @@ package com.pasqualehorse.livecoding.controller;
 
 import java.util.List;
 
+import com.pasqualehorse.livecoding.controller.dto.*;
+import com.pasqualehorse.livecoding.entity.User;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import com.pasqualehorse.livecoding.controller.dto.CreateUserRequestDto;
-import com.pasqualehorse.livecoding.controller.dto.ListUserDto;
-import com.pasqualehorse.livecoding.controller.dto.UserResponseDto;
-import com.pasqualehorse.livecoding.controller.dto.WithIdResponseDto;
 import com.pasqualehorse.livecoding.service.UserService;
 
 import jakarta.validation.Valid;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/user")
@@ -64,6 +63,11 @@ public class UserController {
 
 	}
 	
-	
+	@PostMapping("/{Userid}/add-picture")
+
+	public BaseResponse addPicture (@RequestBody MultipartFile file, @PathVariable long  Userid) {
+
+return userService.postPicture(file, Userid);
+	}
 
 }
