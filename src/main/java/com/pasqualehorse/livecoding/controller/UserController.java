@@ -5,6 +5,7 @@ import java.util.List;
 import com.pasqualehorse.livecoding.controller.dto.*;
 import com.pasqualehorse.livecoding.entity.User;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import com.pasqualehorse.livecoding.service.UserService;
@@ -63,11 +64,11 @@ public class UserController {
 
 	}
 	
-	@PostMapping("/{Userid}/add-picture")
+	@PostMapping(value = "/{Userid}/add-picture", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE} )
 
 	public BaseResponse addPicture (@RequestBody MultipartFile file, @PathVariable long  Userid) {
 
-return userService.postPicture(file, Userid);
+		return userService.postPicture(file, Userid);
 	}
 
 }
