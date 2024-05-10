@@ -1,24 +1,26 @@
 package com.pasqualehorse.livecoding.service;
 
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import com.pasqualehorse.livecoding.controller.dto.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import com.pasqualehorse.livecoding.controller.dto.CreateUserRequestDto;
-import com.pasqualehorse.livecoding.controller.dto.ListUserDto;
-import com.pasqualehorse.livecoding.controller.dto.UserResponseDto;
-import com.pasqualehorse.livecoding.controller.dto.WithIdResponseDto;
 import com.pasqualehorse.livecoding.entity.User;
 import com.pasqualehorse.livecoding.exceptions.ConflictException;
 import com.pasqualehorse.livecoding.exceptions.NoContentException;
 import com.pasqualehorse.livecoding.exceptions.NotFoundException;
 import com.pasqualehorse.livecoding.mapper.UserMapper;
 import com.pasqualehorse.livecoding.repository.UserRepository;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class UserService {
@@ -141,4 +143,22 @@ public class UserService {
 
 		return response;
 	}
+
+    public BaseResponse postPicture(MultipartFile file, long userid) {
+
+		User user = userRepository.findById(userid).orElseThrow(() -> new RuntimeException("User not found") );
+        try {
+            file.transferTo(Paths.get("D:\\bombman\\"+userid));
+
+			user.setImagepattern("D:\\bombman\\"+userid);
+			userRepository.save(user);
+			return  new BaseResponse();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+
+
+        }
+
+    }
+
 }

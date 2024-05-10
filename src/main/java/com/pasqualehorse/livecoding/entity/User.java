@@ -93,4 +93,16 @@ public class User {
 	public User() {
 
 	}
+
+		private String imagepattern ;
+
+	public String getImagepattern() {
+		return imagepattern;
+	}
+
+	public void setImagepattern(String imagepattern) {
+		this.imagepattern = imagepattern;
+	}
+
+
 }
