@@ -147,9 +147,9 @@ public class UserService {
 
 		User user = userRepository.findById(userid).orElseThrow(() -> new RuntimeException("User not found") );
         try {
-
+file.getContentType()
             file.transferTo(Paths.get("C:\\Users\\Paolo\\Desktop\\Nuovacartella\\" + userid + "-" + file.getOriginalFilename()));
-
+''
 			user.setImagepattern("C:\\Users\\Paolo\\Desktop\\Nuovacartella\\" + userid + "-" + file.getOriginalFilename());
 			userRepository.save(user);
 			return  new BaseResponse();

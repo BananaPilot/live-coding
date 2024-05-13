@@ -105,4 +105,13 @@ public class User {
 	}
 
 
+	public String getImagineContentType() {
+		return imagineContentType;
+	}
+
+	public void setImagineContentType(String imagineContentType) {
+		this.imagineContentType = imagineContentType;
+	}
+
+	public String imagineContentType;
 }
