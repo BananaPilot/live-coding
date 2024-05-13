@@ -1,17 +1,16 @@
 package com.pasqualehorse.livecoding.service;
 
 import java.io.IOException;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import com.pasqualehorse.livecoding.controller.dto.*;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.pasqualehorse.livecoding.entity.User;
@@ -149,9 +148,9 @@ public class UserService {
 		User user = userRepository.findById(userid).orElseThrow(() -> new RuntimeException("User not found") );
         try {
 
-            file.transferTo(Paths.get("D:\\mystuff\\" + userid + "-" + file.getOriginalFilename()));
+            file.transferTo(Paths.get("C:\\Users\\Paolo\\Desktop\\Nuovacartella\\" + userid + "-" + file.getOriginalFilename()));
 
-			user.setImagepattern("D:\\mystuff\\" + userid + "-" + file.getOriginalFilename());
+			user.setImagepattern("C:\\Users\\Paolo\\Desktop\\Nuovacartella\\" + userid + "-" + file.getOriginalFilename());
 			userRepository.save(user);
 			return  new BaseResponse();
         } catch (IOException e) {
@@ -162,4 +161,10 @@ public class UserService {
 
     }
 
+	public FileSystemResource downloadPicture(Long userId) {
+		User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+		String string = user.getImagepattern();
+		if (string == null) throw new NotFoundException("picture not found");
+		return new FileSystemResource(string);
+	}
 }

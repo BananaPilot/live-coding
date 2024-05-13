@@ -3,8 +3,9 @@ package com.pasqualehorse.livecoding.controller;
 import com.pasqualehorse.livecoding.controller.dto.*;
 import com.pasqualehorse.livecoding.service.UserService;
 import jakarta.validation.Valid;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -62,6 +63,16 @@ public class UserController {
 	@PostMapping(value = "/{Userid}/add-picture", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public BaseResponse addPicture(@RequestPart MultipartFile file, @PathVariable long Userid) {
         return userService.postPicture(file, Userid);
+    }
+
+    @GetMapping("/{userId}/download")
+    public ResponseEntity<Resource> getPicture (@PathVariable Long userId) {
+        FileSystemResource file = userService.downloadPicture(userId);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.IMAGE_JPEG);
+        headers.setContentDisposition(ContentDisposition.builder("inline").filename(file.getFilename()).build());
+        return new ResponseEntity<>(file,headers,HttpStatus.OK);
+
     }
 
 }
