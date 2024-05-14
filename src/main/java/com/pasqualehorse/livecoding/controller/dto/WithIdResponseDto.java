@@ -2,7 +2,7 @@ package com.pasqualehorse.livecoding.controller.dto;
 
 public class WithIdResponseDto extends BaseResponse {
 
-	public Long id;
+	private Long id;
 
 	public WithIdResponseDto(Long id) {
 		super();

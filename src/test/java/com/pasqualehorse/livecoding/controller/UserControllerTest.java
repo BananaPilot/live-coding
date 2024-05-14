@@ -10,12 +10,24 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.awt.*;
+import java.nio.file.FileSystem;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -66,5 +78,32 @@ class UserControllerTest {
                 .content(objectMapper.writeValueAsString(user2))).andDo(print()).andExpect(status().is(409)).andReturn();
         BaseResponse baseResponse = objectMapper.readValue(res.getResponse().getContentAsString(), BaseResponse.class);
         assertFalse(baseResponse.getErrorMessage().isEmpty(), "Email già presente");
+    }
+
+    @Test
+    public void testImage() throws Exception{
+        userRepository.deleteAll();
+        User user1 = new User("willo", "willo@gmail.com", "1234");
+        //chiamo l endpoint
+
+        MockHttpServletResponse response = this.mock.perform(post("/user/add")
+                //si aspetta un json
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(user1))).andReturn().getResponse();
+
+        assertEquals(200,response.getStatus());
+
+        WithIdResponseDto withIdResponseDto = objectMapper.readValue(response.getContentAsString(),WithIdResponseDto.class);
+        assertNotNull(withIdResponseDto.getId());
+
+        byte[] bytes = Files.readAllBytes(Paths.get("C:\\Users\\Gianni\\OneDrive\\Documenti\\develhope\\Spring\\live-coding\\src\\test\\resources\\gattino.JPG"));
+
+        MockMultipartFile gattino = new MockMultipartFile("gattinoWeb.JPG","gattino.JPG","image/jpeg",bytes);
+
+        MockHttpServletResponse gattinoResponse = this.mock.perform(MockMvcRequestBuilders.multipart("/user/"+ withIdResponseDto.getId() + "/add-picture")
+                .file(gattino)).andReturn().getResponse();
+
+        MockHttpServletResponse finalResponseJack = this.mock.perform(get("/"+ withIdResponseDto.getId() +"/download")).andReturn().getResponse();
+         assertEquals(200,finalResponseJack.getStatus());
     }
 }

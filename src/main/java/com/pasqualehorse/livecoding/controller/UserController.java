@@ -67,11 +67,8 @@ public class UserController {
 
     @GetMapping("/{userId}/download")
     public ResponseEntity<Resource> getPicture (@PathVariable Long userId) {
-        FileSystemResource file = userService.downloadPicture(userId);
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.IMAGE_JPEG);
-        headers.setContentDisposition(ContentDisposition.builder("inline").filename(file.getFilename()).build());
-        return new ResponseEntity<>(file,headers,HttpStatus.OK);
+
+        return userService.downloadPicture(userId);
 
     }
 

@@ -20,24 +20,31 @@ public class User {
 	@Column
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    
 	@Column(length = 31, unique = true)
 	private String username;
-    
 	@Column(length = 127, unique = true)
 	private String email;
-
 	@Column(length = 127)
 	private String password;
-    
 	@Column(nullable = false)
 	private boolean active = false;
-	
 	@OneToMany(mappedBy = "user")
 	private List<UserRuolo> ruolo;
 	@JsonIgnore
 	public List<UserRuolo> getRuolo() {
 		return ruolo;
+	}
+	public String imagineContentType;
+	private String imagepattern ;
+
+	public User(String username, String email, String password) {
+		this.username = username;
+		this.email = email;
+		this.password = password;
+	}
+
+	public User() {
+
 	}
 
 	public void setRuolo(List<UserRuolo> ruolo) {
@@ -84,18 +91,6 @@ public class User {
 		this.active = active;
 	}
 
-	public User(String username, String email, String password) {
-		this.username = username;
-		this.email = email;
-		this.password = password;
-	}
-
-	public User() {
-
-	}
-
-		private String imagepattern ;
-
 	public String getImagepattern() {
 		return imagepattern;
 	}
@@ -113,5 +108,4 @@ public class User {
 		this.imagineContentType = imagineContentType;
 	}
 
-	public String imagineContentType;
 }
