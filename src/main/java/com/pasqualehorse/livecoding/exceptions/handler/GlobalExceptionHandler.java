@@ -1,6 +1,7 @@
 
 package com.pasqualehorse.livecoding.exceptions.handler;
 
+import com.pasqualehorse.livecoding.exceptions.BadRequestException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -24,5 +25,10 @@ public class GlobalExceptionHandler {
 	public BaseResponse handleNoContentException(NoContentException e) {
 		return new BaseResponse(e.getMessage());
 	}
-	
+
+	@ExceptionHandler(BadRequestException.class)
+	@ResponseStatus(value = HttpStatus.BAD_REQUEST)
+	public BaseResponse handlerBadRequest(BadRequestException e){
+		return new BaseResponse(e.getMessage());
+	}
 }
