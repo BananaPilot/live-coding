@@ -158,9 +158,9 @@ public class UserService {
 		User user = userRepository.findById(userid).orElseThrow(() -> new RuntimeException("User not found") );
         try {
 			user.setImagineContentType(file.getContentType());
-            file.transferTo(Paths.get("C:\\Users\\Gianni\\OneDrive\\Documenti\\develhope\\Spring" + userid + "-" + file.getOriginalFilename()));
+            file.transferTo(Paths.get("C:\\Users\\Manue\\git\\live-coding" + userid + "-" + file.getOriginalFilename()));
 
-			user.setImagepattern("C:\\Users\\Gianni\\OneDrive\\Documenti\\develhope\\Spring" + userid + "-" + file.getOriginalFilename());
+			user.setImagepattern("C:\\Users\\Manue\\git\\live-coding" + userid + "-" + file.getOriginalFilename());
 			userRepository.save(user);
 
 			return  new BaseResponse();
