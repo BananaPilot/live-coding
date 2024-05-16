@@ -122,7 +122,7 @@ class UserControllerTest {
 		assertNotNull(withIdResponseDto.getId());
 
 		byte[] bytes = Files
-				.readAllBytes(Paths.get("C:\\Users\\Manue\\git\\live-coding\\src\\test\\resources\\gattino.JPG"));
+				.readAllBytes(Paths.get("C:\\Users\\Alfre\\Desktop\\medteamb\\live-coding\\src\\test\\resources\\gattino.JPG"));
 		
 		
 
@@ -152,6 +152,8 @@ class UserControllerTest {
 		MockHttpServletResponse rispostaTpyePdf = this.mock.perform(MockMvcRequestBuilders
 				.multipart("/user/" + withIdResponseDto.getId() + "/add-picture").file(gattinoPdf)).andReturn()
 				.getResponse();
+		BaseResponse risposta = objectMapper.readValue(rispostaTpyePdf.getContentAsString(), BaseResponse.class);
 		assertEquals(400, rispostaTpyePdf.getStatus());
+		assertEquals("NOOOOOOOOOOOOOOOOOO",risposta.getErrorMessage() );
 	}
 }
