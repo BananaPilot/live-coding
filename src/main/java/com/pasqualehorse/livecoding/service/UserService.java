@@ -1,17 +1,23 @@
 package com.pasqualehorse.livecoding.service;
 
 import java.io.IOException;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
 import com.pasqualehorse.livecoding.controller.dto.*;
+import com.pasqualehorse.livecoding.exceptions.BadRequestException;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.ContentDisposition;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.pasqualehorse.livecoding.entity.User;
@@ -146,19 +152,34 @@ public class UserService {
 
     public BaseResponse postPicture(MultipartFile file, long userid) {
 
+		if(!Arrays.asList(MediaType.IMAGE_GIF_VALUE,MediaType.IMAGE_JPEG_VALUE,MediaType.IMAGE_PNG_VALUE).contains(file.getContentType())){
+			throw new BadRequestException("NOOOOOOOOOOOOOOOOOO");
+		}
 		User user = userRepository.findById(userid).orElseThrow(() -> new RuntimeException("User not found") );
         try {
-            file.transferTo(Paths.get("C:\\Users\\Alfre\\Desktop\\LaDirectorySeria\\" +userid));
+			user.setImagineContentType(file.getContentType());
+            file.transferTo(Paths.get("C:\\Users\\Manue\\git\\live-coding" + userid + "-" + file.getOriginalFilename()));
 
-			user.setImagepattern("C:\\Users\\Alfre\\Desktop\\LaDirectorySeria\\" + userid);
+			user.setImagepattern("C:\\Users\\Manue\\git\\live-coding" + userid + "-" + file.getOriginalFilename());
 			userRepository.save(user);
+
 			return  new BaseResponse();
         } catch (IOException e) {
             throw new RuntimeException(e);
 
-
         }
-
     }
+	public ResponseEntity<Resource> downloadPicture(Long userId) {
 
+		User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+		String string = user.getImagepattern();
+		FileSystemResource file = new FileSystemResource(string);
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.parseMediaType(user.getImagineContentType()));
+		headers.setContentDisposition(ContentDisposition.builder("inline").filename(file.getFilename()).build());
+
+		if (string == null) throw new NotFoundException("picture not found");
+
+		return new ResponseEntity<>(file,headers,200);
+	}
 }

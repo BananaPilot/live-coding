@@ -24,5 +24,6 @@ public interface UserRepository extends JpaRepository<User, Long>{
 	List<User> getLikeUsername(@Param("username") String username);
 	@Query ( value = "select * from userT where username like :username",nativeQuery = true)
 	Page<User> findPageByUsernameLike(String username, Pageable page);
+
 	
 }
